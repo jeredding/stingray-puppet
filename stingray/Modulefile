@@ -1,9 +1,5 @@
 name    'riverbed-stingray'
-<<<<<<< HEAD
-version '0.5.1'
-=======
-version '0.3.1'
->>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
+version '0.5.2'
 source 'git@github.com:riverbed/stingray-puppet.git'
 author 'riverbed'
 license 'Apache License, Version 2.0'
