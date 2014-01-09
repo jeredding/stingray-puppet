@@ -13,7 +13,9 @@
 # [*license_key*]
 # Path to the license key file. Providing no license key file, defaults to
 # developer mode.
-#
+# [*run_as_user*]
+#  
+# [*run_as_group*]
 # === Examples
 #
 #  stingray::new_cluster { 'my_cluster':
@@ -27,6 +29,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
@@ -34,8 +37,9 @@
 #
 define stingray::new_cluster (
     $admin_password = $stingray::params::admin_password,
-    $license_key = $stingray::params::license_key
-
+    $license_key = $stingray::params::license_key,
+    $run_as_user = 'nobody',
+    $run_as_group = 'nogroup'
 ) {
     include stingray
     include stingray::params
@@ -56,6 +60,7 @@ define stingray::new_cluster (
         require => [ File['new_stingray_cluster_replay'], ],
         alias   => 'new_stingray_cluster',
         creates => "${path}/rc.d/S10admin",
+        logoutput => true
     }
 
     if ($license_key == '') {

@@ -72,7 +72,7 @@
 #
 # [*request_rules*]
 # If a request rule is needed, the name of the rule to use. See rule.pp for
-# creating # a rule.
+# creating a rule.
 #
 # [*response_rules*]
 # If a response rule is needed, the name of the rule to use. See rule.pp for
@@ -88,6 +88,9 @@
 # [*caching*]
 # If set to 'yes' the Stingray Traffic Manager will attempt to cache web
 # server responses. The default is 'no'.
+#
+# [*caching_time*]
+# TTL for caching.  The default is undef so it's not populated.
 #
 # [*compression*]
 # If set to 'yes' the Stingray Traffic Manager will attempt to compress
@@ -136,33 +139,38 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
 # Copyright 2013 Riverbed Technology
 #
 define stingray::virtual_server(
-    $address             = '*',
-    $port                = 80,
-    $protocol            = 'http',
-    $pool                = 'discard',
-    $protection          = undef,
-    $bandwidth           = undef,
-    $enabled             = 'no',
-    $ssl_decrypt         = 'no',
-    $ssl_certificate     = undef,
-    $request_rules       = undef,
-    $response_rules      = undef,
-    $enable_logging      = false,
-    $log_filename        = '%zeushome%/zxtm/log/%v.log',
-    $caching             = 'no',
-    $compression         = 'no',
-    $compression_level   = undef,
-    $timeout             = undef,
-    $connect_timeout     = undef,
-    $aptimizer_express   = 'no'
-
-) {
+        $address            = '*',
+        $port               = 80,
+        $protocol           = 'http',
+        $pool               = 'discard',
+        $protection         = undef,
+        $bandwidth           = undef,
+        $enabled            = 'no',
+        $ssl_decrypt        = 'no',
+        $ssl_headers        = 'no',
+        $ssl_certificate    = undef,
+        $request_rules      = undef,
+        $response_rules     = undef,
+        $enable_logging     = false,
+        $log_filename       = '%zeushome%/zxtm/log/%v.log',
+        $caching            = 'no',
+        $caching_time       = undef,
+        $compression        = 'no',
+        $compression_level  = undef,
+        $syslog_enabled     = false,
+        $syslog_ip_endpoint = undef,
+        $syslog_format      = undef,
+        $connect_timeout    = undef,
+        $connection_timeout = undef,
+        $aptimizer_express   = 'no'
+    ) {
     include stingray
 
     $path = $stingray::install_dir

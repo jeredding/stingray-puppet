@@ -1,7 +1,19 @@
 address <%= @address.class == Array ? "\"" + (@address * "\" \"") + "\"": "\"" + @address + "\""%>
 <% if @client_cas then -%>client_cas <%=@client_cas * " "%><% end %>
 enabled <% if @enabled == "yes" then -%>yes<% else -%>no<% end %>
+<<<<<<< HEAD
 port <%= @port%>
+=======
+
+<% if @ssl_headers == "yes" then -%>ssl_headers Yes <% end %>
+
+port <%= @port%>
+
+<% if @connect_timeout -%>connect_timeout <%= @connect_timeout%>  <% end -%>
+
+<% if @connection_timeout -%>timeout <%= @connection_timeout%>  <% end -%>
+
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
 <% if @ssl_certificate -%>
 private_key <%= @ssl_certificate%>.private
 public_cert <%= @ssl_certificate%>.public
@@ -28,16 +40,32 @@ rules <%= @request_rules.class == Array ? "\"" + (@request_rules * "\" \"") + "\
 <% if @protection then -%>
 protection  <%= @protection %>
 <% end -%>
+<<<<<<< HEAD
 <% if @bandwidth then -%>
 bandwidth_class  <%= @bandwidth %>
 <% end -%>
 <% if @timeout -%>timeout <%= @timeout %><% end %>
 <% if @connect_timeout -%>connect_time  <%= @connect_timeout %><% end %>
 webcache!enabled   <%= @caching %>
+=======
+<% if @timeout -%>timeout <%= @timeout %><% end %>
+webcache!enabled   <%= @caching %>
+<% if @caching_time -%>webcache!time <%= @caching_time %><% end %>
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
 gzip!enabled   <%= @compression %>
 <% if @compression_level then -%>
 gzip!compresslevel  <%= @compression_level %>
 <% end -%>
+<<<<<<< HEAD
 <% if @aptimizer_express_code == "yes" then -%>
 aptimizer!enabled Yes
 <% end -%>
+=======
+<% if @syslog_enabled -%>
+syslog!enabled  Yes
+syslog!ipendpoint   <%= @syslog_ip_endpoint %>
+syslog!format     <%= @syslog_format %>
+<% end -%>
+
+
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)

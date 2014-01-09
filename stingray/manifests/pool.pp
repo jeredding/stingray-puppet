@@ -28,7 +28,7 @@
 # it should be drained first.
 #
 # [*monitors*]
-# A list of the monitors for this pool.  A pool can have multiple monitors.
+# An array of the monitors for this pool.  A pool can have multiple monitors.
 # Monitors watch the nodes in a pool, and inform Stingray if the nodes are
 # functioning correctly.  Stingray contains a number of builtin monitors.
 # You can also create custom monitors, please see monitor.pp for more
@@ -85,6 +85,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
@@ -92,15 +93,20 @@
 #
 define stingray::pool(
     $nodes,
-    $weightings  = undef,
-    $monitors    = 'Ping',
-    $disabled    = '',
-    $draining    = '',
-    $algorithm   = 'Round Robin',
-    $persistence = undef,
+    $weightings               = undef,
+    $monitors                 = ['Ping'],
+    $disabled                 = '',
+    $draining                 = '',
+    $algorithm                = 'Round Robin',
+    $persistence              = undef,
     $bandwidth   = undef,
-    $maxconns    = undef
-
+    $maxconns                 = undef,
+    $max_connect_time         = undef,
+    $max_reply_time           = undef,
+    $node_connclose           = undef,
+    $node_connection_attempts = undef,
+    $node_fail_time           = undef,
+    $queue_timeout            = undef
 ) {
     include stingray
 

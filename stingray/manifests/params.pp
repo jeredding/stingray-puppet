@@ -6,6 +6,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #

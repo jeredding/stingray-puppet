@@ -52,6 +52,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
@@ -64,12 +65,19 @@ define stingray::settings(
     $flipper_autofailback = 'Yes',
     $flipper_frontend_check_addrs = '%gateway%',
     $flipper_monitor_interval = 500, # in milliseconds
-    $flipper_monitor_timeout = 5 # in seconds
-
+    $flipper_monitor_timeout = 5, # in seconds
+    $flipper_unicast_port = 9090,
+    $flipper_heartbeat_method = 'multicast'
 ) {
     include stingray
 
     $path = $stingray::install_dir
+
+    case downcase($flipper_heartbeat_method) {
+        'multicast':  {$heartbeat_method = 'multicast'}
+        'unicast':    {$heartbeat_method = 'unicast'}
+        default:      {fail('Unsupported heartbeat_method')}
+    }
 
     file { "${path}/zxtm/conf/settings.cfg":
         content => template ('stingray/settings.erb'),

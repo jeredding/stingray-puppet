@@ -3,8 +3,17 @@ admin!password=<%= @admin_password%>
 net!warn=
 start_at_boot=Y
 zxtm!cluster=C
+<<<<<<< HEAD
 zxtm!group=
 zxtm!license_key=
 zxtm!use_invalid_key_license=y
 zxtm!unique_bind=N
 zxtm!user=
+=======
+zxtm!group=<%= @run_as_group%>
+zxtm!license_key=
+zxtm!use_invalid_key_license=y
+zxtm!unique_bind=N
+zxtm!name_useip=N
+zxtm!user=<%= @run_as_user%>
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)

@@ -33,6 +33,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
@@ -46,13 +47,12 @@ class stingray (
 
 ) inherits stingray::params {
 
-    if !defined(Package['wget']) {
-		    package {
-		        'wget':;
-		    }  
+    if !defined(Package["wget"]) {
+        package {'wget':ensure => installed}
     }
 
-    Exec { path => '/usr/bin:/bin:/usr/sbin:/sbin' }
+    Exec { path => '/usr/bin:/bin:/usr/sbin:/sbin'}
+
     $stm_arch = $stingray::params::stm_arch
 
     #
@@ -89,6 +89,7 @@ class stingray (
     #
     # Download from Riverbed Support site and place in $tmp_dir
     #
+    info ("Download from Riverbed Support site and place in $tmp_dir")
     exec { "wget ${image_loc} -O ${tmp_dir}/${image_name}.tgz":
         creates => "${tmp_dir}/${image_name}.tgz",
         require => [Package[wget], ],
@@ -98,6 +99,7 @@ class stingray (
     #
     # Untar and Ungzip the Stingray installer
     #
+    info ("Untar and Ungzip the Stingray installer")
     exec { "tar zxvf ${tmp_dir}/${image_name}.tgz":
         cwd     => $tmp_dir,
         creates => "${tmp_dir}/${image_name}/",
@@ -108,6 +110,7 @@ class stingray (
     #
     # Create the installer script
     #
+    info ("Create the installer script")
     file { "${tmp_dir}/${image_name}/install_script":
         content => template('stingray/stingray_install.erb'),
         require => [ Exec['untar_stingray'], ],
@@ -117,12 +120,14 @@ class stingray (
     #
     # And finally install the software
     #
+    info ("And finally install the software")
     exec { "${tmp_dir}/${image_name}/zinstall --replay-from=install_script --noninteractive":
         cwd     => $tmp_dir,
         user    => 'root',
         creates => "${install_dir}/zxtm-${version}",
         require => [ File['create_install_script'], ],
         alias   => 'install_stingray',
+        logoutput => true 
     }
 
     #
@@ -136,4 +141,6 @@ class stingray (
     #
     # The next step is either create a new_cluster or join_cluster
     #
+
+    info ("The next step is either create a new_cluster or join_cluster... So I hope you did that.")
 }

@@ -24,6 +24,7 @@
 # === Authors
 #
 # Ed Lim <limed@mozilla.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 define stingray::protection (
     $allowed    = undef,

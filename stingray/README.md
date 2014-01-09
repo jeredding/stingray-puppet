@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 # Riverbed Stingray Traffic Manager module for Puppet
+=======
+# Riverbed Stingray Traffic Manager module for Puppet (edited by erik.redding@rackspace.com)
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
 
 Riverbed Stingray Traffic Manager is a full performance software and virtual Layer 7 application delivery controller (ADC) that enables enterprises and cloud operators to create, manage, and deliver key services more quickly, more flexibly, and at a lower cost.
 
 This module installs Riverbed Stingray Traffic Manager and manages virtual servers, pools, traffic ip groups, etc.
 
+<<<<<<< HEAD
+=======
+This was cloned, cleaned up to be functional (there were resource collisions when trying to use out of the box) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
+
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
 ## Installation
 
 The modules can be installed via puppet module tool (requires [version 2.7.14+](http://docs.puppetlabs.com/puppet/2.7/reference/modules_installing.html)):
@@ -98,6 +107,7 @@ Creates a Stingray Traffic manager protection class. This is like an ACL and can
         banned  => ['127.0.0.1'],
     }
 
+<<<<<<< HEAD
 ### bandwidth
 
 Creates a Stingray Traffic manager bandwidth management class.  Bandwidth
@@ -110,6 +120,8 @@ bandwidth sending data to the clients.
         maximum => '10000',
     }
 
+=======
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)
 ### ssl_certificate
 Stingray can be used to offload SSL processing from your servers.  To use this feature you must import your SSL certificate to the Stingray Traffic Manager.  To import an SSL certificate:
 
@@ -118,5 +130,15 @@ Stingray can be used to offload SSL processing from your servers.  To use this f
         private_key_file => 'puppet:///modules/stingray/cert.private'
 }
 
+<<<<<<< HEAD
 ## Further Reading
 Please see the [Reference Guide](https://splash.riverbed.com/docs/DOC-1638) for more details on all the functionality available with the Stingray Traffic Manager Puppet Module.
+=======
+## Tests
+There's none!  Please contribute!
+
+## Further Reading
+Please see the [Reference Guide](https://splash.riverbed.com/docs/DOC-1638) for more details on all the functionality available with the Stingray Traffic Manager Puppet Module.
+
+
+>>>>>>> This was cloned, cleaned up to be functional (there were resource collisions out of the wazoo) and tweaked to cover more common use cases (how about just a SSL-based resource and not provide non-SSL?)

@@ -26,6 +26,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
@@ -34,53 +35,45 @@
 define stingray::ssl_certificate(
     $certificate_file = '',
     $private_key_file = ''
-
 ) {
     include stingray
+    include stingray::ssl_server_keys_config
 
     $path = $stingray::install_dir
+    $keyname = $name
+    info ("Configuring SSL certificate ${keyname}")
+    info ("${path}/zxtm/conf/ssl/server_keys/${keyname}.public")
 
-    info ("Configuring SSL certificate ${name}")
-    file { "${path}/zxtm/conf/ssl/server_keys/${name}.public":
+    file { "${path}/zxtm/conf/ssl/server_keys/${keyname}.public":
         ensure => 'present',
-        source => $certificate_file,
+        source => $certificate_file
+    }
+    info ("${path}/zxtm/conf/ssl/server_keys/${keyname}.private")
+    file { "${path}/zxtm/conf/ssl/server_keys/${keyname}.private":
+        ensure => 'present',
+        source => $private_key_file
+    }
+    file_line { "public key ${keyname}":
+        ensure  => present,
+        path    => "${path}/zxtm/conf/ssl/server_keys_config",
+        line    => "${keyname}!public  %zeushome%/zxtm/conf/ssl/server_keys/${keyname}.public",
+        require => File["server_keys_config"],
         notify => Exec['replicate_config']
     }
 
-    file { "${path}/zxtm/conf/ssl/server_keys/${name}.private":
-        ensure => 'present',
-        source => $private_key_file,
+    file_line { "private key ${keyname}":
+        ensure  => present,
+        path    => "${path}/zxtm/conf/ssl/server_keys_config",
+        line    => "${keyname}!private  %zeushome%/zxtm/conf/ssl/server_keys/${keyname}.private",
+        require => File["server_keys_config"],
         notify => Exec['replicate_config']
     }
 
-    file { "${path}/zxtm/conf/ssl/server_keys_config":
-        ensure  => 'present',
-        alias   => 'server_keys_config',
-        require => [ Exec['new_stingray_cluster'], ],
-        notify  => Exec['replicate_config']
-    }
-
-    file_line { 'public key':
+    file_line { "managed ${keyname}":
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
-        line    => "${name}!public  ${path}/zxtm/conf/ssl/server_keys/${name}.public",
-        require => File['server_keys_config'],
-        notify  => Exec['replicate_config']
-    }
-
-    file_line { 'private key':
-        ensure  => present,
-        path    => "${path}/zxtm/conf/ssl/server_keys_config",
-        line    => "${name}!private  ${path}/zxtm/conf/ssl/server_keys/${name}.private",
-        require => File['server_keys_config'],
-        notify  => Exec['replicate_config']
-    }
-
-    file_line { 'managed':
-        ensure  => present,
-        path    => "${path}/zxtm/conf/ssl/server_keys_config",
-        line    => "${name}!managed  yes",
-        require => File['server_keys_config'],
-        notify  => Exec['replicate_config']
+        line    => "${keyname}!managed  yes",
+        require => File["server_keys_config"],
+        notify => Exec['replicate_config']
     }
 }

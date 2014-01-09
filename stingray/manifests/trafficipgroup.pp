@@ -17,7 +17,7 @@
 #
 # [*machines*]
 # A list of the Stingray Traffic Managers to associate with this traffic
-# ip group. The default is all nodes in the cluster.
+# ip group. The default is this node.
 #
 # [*passive*]
 # Of the Stingray Traffic Managers associate with this traffic ip group,
@@ -46,6 +46,7 @@
 # === Authors
 #
 # Faisal Memon <fmemon@riverbed.com>
+# Erik Redding <erik.redding@rackspace.com>
 #
 # === Copyright
 #
@@ -54,7 +55,7 @@
 define stingray::trafficipgroup(
     $ipaddresses = undef,
     $enabled = 'no',
-    $machines = '*',
+    $machines = '',
     $passive = '',
     $keeptogether = 'no'
 
@@ -76,9 +77,6 @@ define stingray::trafficipgroup(
     }
 
     file { "${path}/zxtm/conf/flipper/${name}":
-    }
-
-    file { "${path}/zxtm/conf/flipper/.${name}":
         ensure  => present,
         content => template ('stingray/trafficipgroup.erb'),
     }
